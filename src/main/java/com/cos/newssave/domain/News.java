@@ -10,11 +10,12 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 @Data
-@Document(collection = "news")
+@Document(collection = "naver_news")
 public class News {
 	@Id
 	private String _id; 
 	
+	private String company; 
 	private String title;
-	private String time;
+	private String createdAt;
 }

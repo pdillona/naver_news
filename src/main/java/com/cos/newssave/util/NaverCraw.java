@@ -16,28 +16,33 @@ public class NaverCraw {
 
 	int aidNum = 1;
 	
-	public List<News> collect10(){
+	public List<News> collect2(){
 		RestTemplate rt = new RestTemplate();
 		List<News> newsList = new ArrayList<>();
 		
-		for (int i = 1; i < 11; i++) {
+		for (int i = 1; i < 3; i++) {
 			String aid = String.format("%010d", aidNum);
-			String url = "https://news.naver.com/main/read.naver?mode=LSD&mid=shm&sid1=100&oid=003&aid="+aid;
+			String url = "https://news.naver.com/main/read.naver?mode=LSD&mid=shm&sid1=102&oid=022&aid="+aid;
 			String html = rt.getForObject(url, String.class);
-
+			
+			
 			Document doc = Jsoup.parse(html);
 
-			Element titleElement = doc.selectFirst("#articleTitle");
-			Element timeElement = doc.selectFirst(".t11");
-			String title = titleElement.text();
-			String time = timeElement.text();
 			
+			Element titleElement = doc.selectFirst("#articleTitle");
+			Element companyElement = doc.selectFirst("#main_content .article_header .press_logo img ");
+			Element createdAtElement = doc.selectFirst(".t11");
+			String title = titleElement.text();
+			String company = companyElement.text();
+			String createdAt = createdAtElement.text();
 			//System.out.println(title);
+			System.out.println(company);
 			//System.out.println(time);
 			
 			News news = News.builder()
 					.title(title)
-					.time(time)
+					.company(company)
+					.createdAt(createdAt)
 					.build();
 			
 			newsList.add(news);
